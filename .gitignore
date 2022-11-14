@@ -53,7 +53,5 @@ dkms.conf
 bin/
 obj/
 bin/Data/
-
-
-.vs/InvoiceCreator/FileContentIndex/bdf6d4d4-84cf-4ff8-9b44-aa5cd95d2ecc.vsidx
-.vs/InvoiceCreator/FileContentIndex/read.lock
+.vs/InvoiceCreator/
+packages/
