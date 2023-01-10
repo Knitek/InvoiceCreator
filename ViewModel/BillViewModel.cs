@@ -47,6 +47,8 @@ namespace InvoiceCreator.ViewModel
         public CommandBase SaveCommand { get; set; }
         public CommandBase SaveAsCommand { get; set; }
         public CommandBase OpenCommand { get; set; }
+        public CommandBase NextMonthCommand { get; set; }
+        public CommandBase NextInvoiceNoCommand { get; set; }
         public CommandBase AboutWindowCommand { get; set; }
         public CommandBase ExitCommand { get; set; }
 
@@ -61,6 +63,9 @@ namespace InvoiceCreator.ViewModel
             SaveCommand = new CommandBase(Save);
             SaveAsCommand = new CommandBase(SaveAs);
             OpenCommand = new CommandBase(Open);
+
+            NextMonthCommand = new CommandBase(NextMonth);
+            NextInvoiceNoCommand = new CommandBase(NextInvoiceNO);
 
             AboutWindowCommand = new CommandBase(AboutWindow);
             ExitCommand = new CommandBase(Exit);
@@ -93,6 +98,68 @@ namespace InvoiceCreator.ViewModel
                 return;
             }
             System.Diagnostics.Process.Start(dir);
+        }
+        private void NextMonth()
+        {
+            var tmpPaymentDate = DateTime.Parse(BillData.PaymentDate);
+            tmpPaymentDate = tmpPaymentDate.AddMonths(1);
+            tmpPaymentDate = tmpPaymentDate.AddDays(14 - tmpPaymentDate.Day);
+
+            var tmpSaleDate = DateTime.Parse(BillData.SaleDate);
+            tmpSaleDate = tmpSaleDate.AddMonths(1);
+            tmpSaleDate = tmpSaleDate.AddDays(DateTime.DaysInMonth(tmpSaleDate.Year, tmpSaleDate.Month)-tmpSaleDate.Day);
+
+            BillData.PaymentDate = tmpPaymentDate.ToString("dd.MM.yyyy");
+            BillData.SaleDate = tmpSaleDate.ToString("dd.MM.yyyy");
+            BillData.IssueDate = tmpSaleDate.ToString("dd.MM.yyyy");
+        }
+        private void NextInvoiceNO()
+        { 
+            if(BillData.BillNumber.Count(x=>x.Equals('/')) != 3)
+            {
+                MessageBox.Show("Unrecognized invoice format. {FV/YYYY/MM/NO}");
+                return;
+            }
+
+            string[] segments = BillData.BillNumber.Split('/');
+            bool newYear = false;
+            if (int.TryParse(segments[1], out int invNoYear))
+            {
+                if (DateTime.Now.Year != invNoYear)
+                {
+                    newYear = true;
+                    segments[1] = DateTime.Now.Year.ToString();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Invoice year is not a valid number.");
+                return;
+            }
+
+            if (int.TryParse(segments[2], out int invMonth))
+            {
+                if(DateTime.Now.Month != invMonth)
+                {
+                    segments[2] = DateTime.Now.ToString("MM");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Invoice month is not a valid number.");
+                return;
+            }
+
+            if(int.TryParse(segments[3], out int invNo))
+            {              
+                segments[3] = newYear ? "1" : (++invNo).ToString();
+            }
+            else
+            {
+                MessageBox.Show("Invoice NO is not a valid number.");
+                return;
+            }
+            billData.BillNumber = string.Join("/", segments);
         }
         private void GeneratePDF()
         {

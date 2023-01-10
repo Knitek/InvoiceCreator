@@ -13,13 +13,17 @@
             <RowDefinition Height="25"/>
         </Grid.RowDefinitions>
         <Menu FontSize="13" Padding="0 3 0 0">
-            <MenuItem Header="File" >
+            <MenuItem Header="File" Width="50px" >
                 <MenuItem Header="Save" Command="{Binding SaveCommand}"/>
                 <MenuItem Header="SaveAs" Command="{Binding SaveAsCommand}"/>
                 <MenuItem Header="Open" Command="{Binding OpenCommand}"/>
                 <MenuItem Header="Exit" Command="{Binding ExitCommand}"/>
             </MenuItem>
-            <MenuItem Header="About" Command="{Binding AboutWindowCommand}"/>
+            <MenuItem Header="Edit" Width="50px">
+                <MenuItem Header="Next month" Command="{Binding NextMonthCommand}"/>
+                <MenuItem Header="Next invoice no." Command="{Binding NextInvoiceNoCommand}"/>
+            </MenuItem>
+            <MenuItem Header="About" Width="50px" Command="{Binding AboutWindowCommand}"/>
         </Menu>
         <Label Grid.Row="2" Background="#FFF0F0F0">
             <TextBlock Text="{Binding StatusText}"/>
@@ -31,6 +35,7 @@
                 <RowDefinition/>
                 <RowDefinition Height="140"/>
                 <RowDefinition Height="30"/>
+                <!--<RowDefinition Height="30"/>-->
                 <RowDefinition/>
             </Grid.RowDefinitions>
             <Grid Grid.Row="0" DataContext="{Binding BillData}">
@@ -43,6 +48,12 @@
                     <RowDefinition/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
+                <!--<Grid.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Next invoice number"/>
+                    </ContextMenu>
+                </Grid.ContextMenu>-->
+
                 <Label Grid.Column="2" Content="Invoice Number"/>
                 <TextBox Text="{Binding BillNumber}" Grid.Row="1" Grid.Column="2"  Margin="2"/>
                 <Label Grid.Column="0" Content="Place of issue"/>
@@ -113,7 +124,8 @@
                     <RowDefinition Height="30"/>
                 </Grid.RowDefinitions>
                 <Label Grid.Column="0" Grid.Row="0" Content="Sale Date"/>
-                <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding SaleDate}" Margin="2"/>
+                <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding SaleDate,StringFormat=dd-MM-yyyy}" Margin="2"/>
+                <!--<DatePickerTextBox Grid.Column="1" Grid.Row="0" Text="{Binding SaleDate}" Margin="2"/>-->
                 <Label Grid.Column="0" Grid.Row="1" Content="Issue Date"/>
                 <TextBox Grid.Column="1"  Grid.Row="1" Text="{Binding IssueDate}" Margin="2"/>
                 <Label Grid.Column="0" Grid.Row="2" Content="Payment Date"/>

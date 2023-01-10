@@ -9,9 +9,12 @@ using System.Xml.Serialization;
 
 namespace InvoiceCreator.Model
 {
-    public class BillData
+    public class BillData : INotifyPropertyChanged
     {
-        public string BillNumber { get; set; }
+        private string saleDate { get; set; }
+        private string issueDate { get; set; }
+        private string paymentDate { get; set; }
+        private string billNumber { get; set; }        
 
         public string VendorName { get; set; }
         public string VendorNIP { get; set; }
@@ -25,10 +28,71 @@ namespace InvoiceCreator.Model
 
         public ObservableCollection<BillItem> Items { get; set; }
 
-        public string SaleDate { get; set; }
-        public string IssueDate { get; set; }
+        public string SaleDate
+        {
+            get
+            {
+                return saleDate;
+            }
+            set
+            {
+                if (value != saleDate)
+                {
+                    saleDate = value;
+                    RaisePropertyChanged("SaleDate");
+                }
+            }
+        }
+        public string IssueDate
+        {
+            get
+            {
+                return issueDate;
+            }
+            set
+            {
+                if (value != issueDate)
+                {
+                    issueDate = value;
+                    RaisePropertyChanged("IssueDate");
+                }
+            }
+        }
+        public string PaymentDate
+        {
+            get
+            {
+                return paymentDate;
+            }
+            set
+            {
+                if (value != paymentDate)
+                {
+                    paymentDate = value;
+                    RaisePropertyChanged("PaymentDate");
+                }
+            }
+        }
+        public string BillNumber
+        {
+            get
+            {
+                return billNumber;
+            }
+            set
+            {
+                if(value != billNumber)
+                {
+                    billNumber = value;
+                    RaisePropertyChanged("BillNumber");
+                }
+            }
+        }
+        //public string IssueDate { get; set; }
+        //public string PaymentDate { get; set; }
+        //public string PaymentDate { get; set; }
+
         public string PlaceOfIssue { get; set; }
-        public string PaymentDate { get; set; }
         public string ToPay { get; set; }
         public string PaymentForm { get; set; }
         public string AmountInWords { get; set; }
@@ -57,7 +121,15 @@ namespace InvoiceCreator.Model
         {
             this.Items = new ObservableCollection<BillItem>();
         }
+        public event PropertyChangedEventHandler PropertyChanged;
+        private void RaisePropertyChanged(string property)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(property));
+            }
+        }
 
-       
+
     }
 }
