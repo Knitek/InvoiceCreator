@@ -80,6 +80,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Model\PDFFileGenerator.cs" />
+    <Compile Include="Model\PDFFileGeneratorV1.cs" />
     <Compile Include="ViewModel\BillViewModel.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
