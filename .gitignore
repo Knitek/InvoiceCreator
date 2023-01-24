@@ -23,7 +23,6 @@
 *.lo
 
 # Shared objects (inc. Windows DLLs)
-*.dll
 *.so
 *.so.*
 *.dylib
@@ -54,4 +53,3 @@ bin/
 obj/
 bin/Data/
 .vs/InvoiceCreator/
-packages/
