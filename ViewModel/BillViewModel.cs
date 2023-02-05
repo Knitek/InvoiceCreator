@@ -11,6 +11,7 @@ using ToolsLib;
 using PdfSharp.Drawing;
 using PdfSharp.Pdf;
 using PdfSharp.Drawing.Layout;
+using InvoiceCreator.View;
 
 namespace InvoiceCreator.ViewModel
 {
@@ -49,6 +50,7 @@ namespace InvoiceCreator.ViewModel
         public CommandBase OpenCommand { get; set; }
         public CommandBase AboutWindowCommand { get; set; }
         public CommandBase ExitCommand { get; set; }
+        public CommandBase AddressBookCommand { get; set; }
 
         public BillViewModel()
         {
@@ -61,11 +63,16 @@ namespace InvoiceCreator.ViewModel
             SaveCommand = new CommandBase(Save);
             SaveAsCommand = new CommandBase(SaveAs);
             OpenCommand = new CommandBase(Open);
+            AddressBookCommand = new CommandBase(OpenAddressBook);
 
             AboutWindowCommand = new CommandBase(AboutWindow);
             ExitCommand = new CommandBase(Exit);
         }
-
+        private void OpenAddressBook()
+        {
+            AddressBookView addressBookView = new AddressBookView();
+            addressBookView.Show();
+        }
         private void LoadDefault()
         {
             string dir = System.IO.Path.GetDirectoryName(ToolsLib.Tools.ReadAppSetting("defaultDataDirectory"));
