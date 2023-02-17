@@ -114,52 +114,13 @@ namespace InvoiceCreator.ViewModel
             BillData.IssueDate = tmpSaleDate.ToString("dd.MM.yyyy");
         }
         private void NextInvoiceNO()
-        { 
-            if(BillData.BillNumber.Count(x=>x.Equals('/')) != 3)
-            {
-                MessageBox.Show("Unrecognized invoice format. {FV/YYYY/MM/NO}");
-                return;
-            }
-
-            string[] segments = BillData.BillNumber.Split('/');
-            bool newYear = false;
-            if (int.TryParse(segments[1], out int invNoYear))
-            {
-                if (DateTime.Now.Year != invNoYear)
-                {
-                    newYear = true;
-                    segments[1] = DateTime.Now.Year.ToString();
-                }
-            }
-            else
-            {
-                MessageBox.Show("Invoice year is not a valid number.");
-                return;
-            }
-
-            if (int.TryParse(segments[2], out int invMonth))
-            {
-                if(DateTime.Now.Month != invMonth)
-                {
-                    segments[2] = DateTime.Now.ToString("MM");
-                }
-            }
-            else
-            {
-                MessageBox.Show("Invoice month is not a valid number.");
-                return;
-            }
-
-            if(int.TryParse(segments[3], out int invNo))
-            {              
-                segments[3] = newYear ? "1" : (++invNo).ToString();
-            }
-            else
-            {
-                MessageBox.Show("Invoice NO is not a valid number.");
-                return;
-            }
-            billData.BillNumber = string.Join("/", segments);
+        {
+            (string no, string errorMessage) = Model.InvocieDateController.NextInvoiceNO(BillData.BillNumber);
+            if (errorMessage.Length > 0)
+                MessageBox.Show(errorMessage);
+            else if (no.Length > 0)
+                BillData.BillNumber = no;
+                
         }
         private void GeneratePDF()
         {

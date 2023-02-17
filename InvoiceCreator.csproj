@@ -79,6 +79,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Model\InvocieDateController.cs" />
     <Compile Include="Model\PDFFileGenerator.cs" />
     <Compile Include="ViewModel\BillViewModel.cs" />
     <Page Include="MainWindow.xaml">
