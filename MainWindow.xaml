@@ -21,7 +21,8 @@
             </MenuItem>
             <MenuItem Header="Edit" Width="50px">
                 <MenuItem Header="Next month" Command="{Binding NextMonthCommand}"/>
-                <MenuItem Header="Next invoice no." Command="{Binding NextInvoiceNoCommand}"/>
+                <MenuItem Header="Next invoice number" Command="{Binding NextInvoiceNoCommand}"/>
+                <MenuItem Header="Next invoice (now)" Command="{Binding NextInvoiceNowCommand}"/>                
             </MenuItem>
             <MenuItem Header="About" Width="50px" Command="{Binding AboutWindowCommand}"/>
         </Menu>

@@ -49,6 +49,7 @@ namespace InvoiceCreator.ViewModel
         public CommandBase OpenCommand { get; set; }
         public CommandBase NextMonthCommand { get; set; }
         public CommandBase NextInvoiceNoCommand { get; set; }
+        public CommandBase NextInvoiceNowCommand { get; set; }
         public CommandBase AboutWindowCommand { get; set; }
         public CommandBase ExitCommand { get; set; }
 
@@ -66,6 +67,7 @@ namespace InvoiceCreator.ViewModel
 
             NextMonthCommand = new CommandBase(NextMonth);
             NextInvoiceNoCommand = new CommandBase(NextInvoiceNO);
+            NextInvoiceNowCommand = new CommandBase(NextInvoiceNow);
 
             AboutWindowCommand = new CommandBase(AboutWindow);
             ExitCommand = new CommandBase(Exit);
@@ -101,26 +103,43 @@ namespace InvoiceCreator.ViewModel
         }
         private void NextMonth()
         {
-            var tmpPaymentDate = DateTime.Parse(BillData.PaymentDate);
-            tmpPaymentDate = tmpPaymentDate.AddMonths(1);
-            tmpPaymentDate = tmpPaymentDate.AddDays(14 - tmpPaymentDate.Day);
-
-            var tmpSaleDate = DateTime.Parse(BillData.SaleDate);
-            tmpSaleDate = tmpSaleDate.AddMonths(1);
-            tmpSaleDate = tmpSaleDate.AddDays(DateTime.DaysInMonth(tmpSaleDate.Year, tmpSaleDate.Month)-tmpSaleDate.Day);
-
-            BillData.PaymentDate = tmpPaymentDate.ToString("dd.MM.yyyy");
-            BillData.SaleDate = tmpSaleDate.ToString("dd.MM.yyyy");
-            BillData.IssueDate = tmpSaleDate.ToString("dd.MM.yyyy");
+            var result = EditFunctions.InvocieDateController.NextMonth(BillData.PaymentDate, BillData.SaleDate);
+            if(String.IsNullOrEmpty(result.errorMessage) is false)
+            {
+                MessageBox.Show(result.errorMessage);
+                return;
+            }
+            else
+            {
+                BillData.IssueDate = result.saleDate;
+                BillData.SaleDate = result.saleDate;
+                BillData.PaymentDate = result.paymentDate;
+            }
         }
         private void NextInvoiceNO()
         {
-            (string no, string errorMessage) = Model.InvocieDateController.NextInvoiceNO(BillData.BillNumber);
+            (string no, string errorMessage) = EditFunctions.InvocieDateController.NextInvoiceNO(BillData.BillNumber,DateTime.Now);
             if (errorMessage.Length > 0)
                 MessageBox.Show(errorMessage);
             else if (no.Length > 0)
-                BillData.BillNumber = no;
-                
+                BillData.BillNumber = no;                
+        }
+        private void NextInvoiceNow()
+        {            
+            DateTime currentDate = DateTime.Now;
+            var result = EditFunctions.InvocieDateController.NextInvoiceByNow(BillData,currentDate);
+            if(result.outBillData!=null && (string.IsNullOrWhiteSpace(result.errorMessage) is true))
+            {
+                BillData.BillNumber = result.outBillData.BillNumber;
+                BillData.SaleDate = result.outBillData.SaleDate;
+                BillData.IssueDate= result.outBillData.IssueDate;
+                BillData.PaymentDate= result.outBillData.PaymentDate;
+            }
+            else
+            {
+                MessageBox.Show(result.errorMessage);
+            }
+            
         }
         private void GeneratePDF()
         {
