@@ -47,6 +47,8 @@ namespace InvoiceCreator.ViewModel
         public CommandBase SaveCommand { get; set; }
         public CommandBase SaveAsCommand { get; set; }
         public CommandBase OpenCommand { get; set; }
+        public CommandBase NextInvoiceNowCommand { get; set; }
+        public CommandBase NextInvoiceNextMonthCommand { get; set; }
         public CommandBase AboutWindowCommand { get; set; }
         public CommandBase ExitCommand { get; set; }
 
@@ -61,6 +63,9 @@ namespace InvoiceCreator.ViewModel
             SaveCommand = new CommandBase(Save);
             SaveAsCommand = new CommandBase(SaveAs);
             OpenCommand = new CommandBase(Open);
+
+            NextInvoiceNowCommand = new CommandBase(NextInvoiceNow);
+            NextInvoiceNextMonthCommand = new CommandBase(NextInvoiceNextMonth);
 
             AboutWindowCommand = new CommandBase(AboutWindow);
             ExitCommand = new CommandBase(Exit);
@@ -94,6 +99,51 @@ namespace InvoiceCreator.ViewModel
             }
             System.Diagnostics.Process.Start(dir);
         }
+        
+        private void NextInvoiceNow()
+        {
+            DateTime currentDate = DateTime.Now;
+            var result = EditFunctions.InvocieDateController.NextInvoiceByNow(BillData, currentDate);
+            if(string.IsNullOrWhiteSpace(result.errorMessage) is false)
+            {
+                MessageBox.Show(result.errorMessage);
+                return;
+            }
+            else
+            {
+                if(result.outBillData == null)
+                {
+                    MessageBox.Show("Unexpected error in edit function");
+                    return;
+                }
+                BillData.BillNumber = result.outBillData.BillNumber;
+                BillData.SaleDate = result.outBillData.SaleDate;
+                BillData.IssueDate = result.outBillData.IssueDate;
+                BillData.PaymentDate = result.outBillData.PaymentDate;
+            }
+        }
+        private void NextInvoiceNextMonth()
+        {
+            var result = EditFunctions.InvocieDateController.NextInvoiceByEndOfNextMonth(BillData);
+            if (String.IsNullOrEmpty(result.errorMessage) is false)
+            {
+                MessageBox.Show(result.errorMessage);
+                return;
+            }
+            else
+            {
+                if (result.outBillData == null)
+                {
+                    MessageBox.Show("Unexpected error in edit function");
+                    return;
+                }
+                BillData.BillNumber = result.outBillData.BillNumber;
+                BillData.IssueDate = result.outBillData.IssueDate;
+                BillData.SaleDate = result.outBillData.SaleDate;
+                BillData.PaymentDate = result.outBillData.PaymentDate;
+            }
+        }
+        
         private void GeneratePDF()
         {            
             PDFFileGenerator.Generate(BillData);
