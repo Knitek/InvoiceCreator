@@ -196,8 +196,9 @@ namespace InvoiceCreator.ViewModel
                 {
                     var tmp = System.Environment.CurrentDirectory.Remove(System.Environment.CurrentDirectory.LastIndexOf(System.IO.Path.DirectorySeparatorChar));
                     tmp = System.IO.Path.Combine(tmp, "Data" + System.IO.Path.DirectorySeparatorChar);
-                
-                dialog.InitialDirectory = tmp;
+                    dialog.DefaultExt = "xml";
+                    dialog.Filter = "XML (*.xml)|*.xml|All files (*.*)|*.*";
+                    dialog.InitialDirectory = tmp;
 
                     var result = dialog.ShowDialog();
                     if (result == System.Windows.Forms.DialogResult.OK)
@@ -206,6 +207,11 @@ namespace InvoiceCreator.ViewModel
                     }
                 }
                 if (selectedFile == string.Empty) return;
+                if(System.IO.Path.GetExtension(selectedFile).ToLower() != ".xml")
+                {
+                    MessageBox.Show("Can't open file type of \""+ System.IO.Path.GetExtension(selectedFile) + "\"");
+                    return;
+                }
                 BillData = null;
                 BillData = Tools.Deserialize<BillData>(selectedFile);
                 LastFileName = selectedFile;
