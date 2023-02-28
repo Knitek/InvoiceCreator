@@ -14,7 +14,7 @@ namespace InvoiceCreator.EditFunctions
         /// </summary>
         /// <param name="invNumber">String invoice number for incrementation</param>
         /// <returns>New invoice number if can generate and error message if it is inpossible</returns>
-        public static (string outInvNumber, string errorMessage) NextInvoiceNO(string invNumber, DateTime baseDate)
+        static (string outInvNumber, string errorMessage) NextInvoiceNO(string invNumber, DateTime baseDate)
         {
             if (invNumber.Count(x => x.Equals('/')) != 3)
                 return ("", "Unrecognized invoice format. {FV/YYYY/MM/NO}");
@@ -49,59 +49,7 @@ namespace InvoiceCreator.EditFunctions
                 return ("","Invoice NO is not a valid number.");
 
             return (string.Join("/", segments), "");
-        }
-        /// <summary>
-        /// Incerements payment and sale date by full month
-        /// </summary>
-        /// <param name="inPaymentDate"></param>
-        /// <param name="inSaleDate"></param>
-        /// <returns></returns>
-        public static (string paymentDate, string saleDate, string errorMessage) NextMonth(string inPaymentDate, string inSaleDate)
-        {
-            DateTime tmpPaymentDate;
-            if (DateTime.TryParse(inPaymentDate, out tmpPaymentDate) is false)
-                return ("", "", "Invalid payment date format");
-            DateTime tmpSaleDate;
-            if(DateTime.TryParse(inSaleDate,out tmpSaleDate) is false)
-                return ("", "", "Invalid sale date format");          
-
-            tmpPaymentDate = tmpPaymentDate.AddMonths(1);
-            tmpPaymentDate = tmpPaymentDate.AddDays(14 - tmpPaymentDate.Day);
-
-            tmpSaleDate = tmpSaleDate.AddMonths(1);            
-            tmpSaleDate = tmpSaleDate.AddDays(DateTime.DaysInMonth(tmpSaleDate.Year, tmpSaleDate.Month)-tmpSaleDate.Day);
-
-            return (tmpPaymentDate.ToString("dd.MM.yyyy"), tmpSaleDate.ToString("dd.MM.yyyy"), "");
-        }
-        /// <summary>
-        /// Incerements payment and sale date by full month
-        /// </summary>
-        /// <param name="inPaymentDate"></param>
-        /// <param name="inSaleDate"></param>
-        /// <returns></returns>
-        public static (string paymentDate, string saleDate, string errorMessage) NextEndOfMonth(string inPaymentDate, string inSaleDate)
-        {
-            DateTime tmpPaymentDate;
-            if (DateTime.TryParse(inPaymentDate, out tmpPaymentDate) is false)
-                return ("", "", "Invalid payment date format");
-            DateTime tmpSaleDate;
-            if (DateTime.TryParse(inSaleDate, out tmpSaleDate) is false)
-                return ("", "", "Invalid sale date format");
-
-            tmpPaymentDate = tmpPaymentDate.AddMonths(1);
-            tmpPaymentDate = tmpPaymentDate.AddDays(14 - tmpPaymentDate.Day);
-
-            tmpSaleDate = tmpSaleDate.AddMonths(1);
-            tmpSaleDate = tmpSaleDate.AddDays(DateTime.DaysInMonth(tmpSaleDate.Year, tmpSaleDate.Month) - tmpSaleDate.Day);
-
-            return (tmpPaymentDate.ToString("dd.MM.yyyy"), tmpSaleDate.ToString("dd.MM.yyyy"), "");
-        }
-        public static (BillData outBillData, string errorMessage) NextInvoiceByMonth(BillData inBillData)
-        {
-
-            BillData tmpBillData = new BillData();
-            return (tmpBillData, "");
-        }
+        }        
         /// <summary>
         /// Sets date to current date and payment date as (+14 Days) and generates next invoice number based on current date
         /// </summary>
@@ -123,6 +71,37 @@ namespace InvoiceCreator.EditFunctions
                 PaymentDate = tmpPaymentDate.ToString("dd.MM.yyyy"),
             };
             return (tmpBillData,"");
+        }
+        /// <summary>
+        /// Based on transaction date of input inovice generates dates for end of next month.
+        /// </summary>
+        /// <param name="inBillData"></param>
+        /// <returns></returns>
+        public static (BillData outBillData, string errorMessage) NextInvoiceByEndOfNextMonth(BillData inBillData)
+        {
+            BillData tmpBillData = new BillData();
+            DateTime tmpPaymentDate;
+            if (DateTime.TryParse(inBillData.PaymentDate, out tmpPaymentDate) is false)
+                return (null, "Invalid payment date format");
+            DateTime tmpSaleDate;
+            if (DateTime.TryParse(inBillData.SaleDate, out tmpSaleDate) is false)
+                return (null, "Invalid sale date format");
+
+            tmpPaymentDate = tmpPaymentDate.AddMonths(1);
+            tmpPaymentDate = tmpPaymentDate.AddDays(14 - tmpPaymentDate.Day);
+
+            tmpSaleDate = tmpSaleDate.AddMonths(1);
+            tmpSaleDate = tmpSaleDate.AddDays(DateTime.DaysInMonth(tmpSaleDate.Year, tmpSaleDate.Month) - tmpSaleDate.Day);
+
+            tmpBillData.PaymentDate = tmpPaymentDate.ToString("dd.MM.yyyy");
+            tmpBillData.SaleDate = tmpSaleDate.ToString("dd.MM.yyyy");
+            tmpBillData.IssueDate = tmpBillData.SaleDate;
+
+            var invNoResult = NextInvoiceNO(inBillData.BillNumber, tmpSaleDate);
+            if (string.IsNullOrWhiteSpace(invNoResult.errorMessage) is false)
+                return (null, invNoResult.errorMessage);
+            tmpBillData.BillNumber = invNoResult.outInvNumber;
+            return (tmpBillData, "");
         }
     }    
 }
