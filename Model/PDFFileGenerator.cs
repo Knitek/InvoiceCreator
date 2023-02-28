@@ -9,6 +9,9 @@ using iTextSharp.text.pdf.draw;
 using InvoiceCreator.Model;
 using System.IO;
 using ToolsLib;
+using PdfSharp.Drawing.Layout;
+using PdfSharp.Drawing;
+using PdfSharp.Pdf;
 
 namespace InvoiceCreator.Model
 {
@@ -16,7 +19,6 @@ namespace InvoiceCreator.Model
     {
         public static void Generate(BillData model)
         {
-            int bOr = 1;
             System.Globalization.CultureInfo.CurrentCulture = new System.Globalization.CultureInfo("pl-PL");
             FontFactory.Register(@"C:\Windows\Fonts\times.ttf");
             Font B7 = FontFactory.GetFont("Times New Roman", BaseFont.IDENTITY_H, true, 7, Font.NORMAL, BaseColor.BLACK);
@@ -272,7 +274,7 @@ namespace InvoiceCreator.Model
                     fs.Write(content, 0, (int)content.Length);
                 }
             }
-            catch(Exception e)
+            catch
             {
                 using (FileStream fs = File.Create(Path.Combine(Path.GetDirectoryName(pathToSave), Guid.NewGuid().ToString().Substring(0, 8) + Path.GetFileName(pathToSave))))
                 {
@@ -280,5 +282,5 @@ namespace InvoiceCreator.Model
                 }
             }
         }
-    }
+     }
 }
