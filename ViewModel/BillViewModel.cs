@@ -146,8 +146,13 @@ namespace InvoiceCreator.ViewModel
         
         private void GeneratePDF()
         {            
-            PDFFileGenerator.Generate(BillData);
-            
+            string result = PDFFileGenerator.Generate(BillData);
+            if(string.IsNullOrWhiteSpace(result) is false)
+            {
+                string filename = System.IO.Path.GetFileName(result);
+                MessageBox.Show("File created:" + filename);
+            }
+            Save();
         }
         private void Save()
         {

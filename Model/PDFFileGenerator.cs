@@ -17,7 +17,7 @@ namespace InvoiceCreator.Model
 {
     class PDFFileGenerator
     {
-        public static void Generate(BillData model)
+        public static string Generate(BillData model)
         {
             System.Globalization.CultureInfo.CurrentCulture = new System.Globalization.CultureInfo("pl-PL");
             FontFactory.Register(@"C:\Windows\Fonts\times.ttf");
@@ -281,6 +281,10 @@ namespace InvoiceCreator.Model
                     fs.Write(content, 0, (int)content.Length);
                 }
             }
+            if (System.IO.File.Exists(pathToSave))
+                return pathToSave;
+            else
+                return string.Empty;
         }
      }
 }

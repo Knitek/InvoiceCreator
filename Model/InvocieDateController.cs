@@ -37,7 +37,7 @@ namespace InvoiceCreator.EditFunctions
             {
                 if (baseDate.Month != invMonth)
                 {
-                    segments[2] = baseDate.ToString("MM");
+                    segments[2] = baseDate.Month.ToString();
                 }
             }
             else
