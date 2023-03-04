@@ -1,0 +1,47 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:system="clr-namespace:System;assembly=mscorlib">
+    <system:String x:Key="programTitle">Kreator faktur</system:String>
+    <system:String x:Key="file-head">Plik</system:String>
+    <system:String x:Key="file-save">Zapisz</system:String>
+    <system:String x:Key="file-saveas">Zapisz jako</system:String>
+    <system:String x:Key="file-open">Otwórz</system:String>
+    <system:String x:Key="file-exit">Wyjdź</system:String>
+    <system:String x:Key="edit-head">Edytuj</system:String>
+    <system:String x:Key="edit-nextinvnow">Kolejna faktura (dzisiaj)</system:String>
+    <system:String x:Key="edit-nextinvbynextmonth">Kolejna faktura (koniec następnego miesiąca)</system:String>
+    <system:String x:Key="about-head">O programie</system:String>
+    <system:String x:Key="placeOfIssueH">Miejsce wystawienia</system:String>
+    <system:String x:Key="invoiceNoH">Numer faktury</system:String>
+
+    <system:String x:Key="vendorH">Sprzedawca</system:String>
+    <system:String x:Key="customerH">Kupujący</system:String>
+    <system:String x:Key="nameH">Nazwa: </system:String>
+    <system:String x:Key="nipH">NIP: </system:String>
+    <system:String x:Key="addressH">Adres: </system:String>
+    <system:String x:Key="emailH">Email: </system:String>
+    <system:String x:Key="phoneH">Telefon: </system:String>
+    <system:String x:Key="saleDateH">Data sprzedaży</system:String>
+    <system:String x:Key="issueDateH">Data wystawienia</system:String>
+    <system:String x:Key="paymentDateH">Data płatności</system:String>
+    <system:String x:Key="toPayH">Do zapłaty: </system:String>
+    <system:String x:Key="commentsH">Komentarz:</system:String>
+    <system:String x:Key="bankNameH">Nazwa banku</system:String>
+    <system:String x:Key="accountNumberH">Numer konta</system:String>
+    <system:String x:Key="paymentFormH">Forma płatności</system:String>
+    <system:String x:Key="amountInWordsH">Kwota słownie</system:String>
+
+    <system:String x:Key="itemNameH">Nazwa</system:String>
+    <system:String x:Key="itempkwiuH">PKWiU</system:String>
+    <system:String x:Key="itemCountH">Ilość</system:String>
+    <system:String x:Key="itemUnitH">Jednostka</system:String>
+    <system:String x:Key="itemUnitPriceH">Cena jednostkowa</system:String>
+    <system:String x:Key="itemValueH">Wartość</system:String>
+
+    <system:String x:Key="generatePdfB">Generuj PDF</system:String>
+    <system:String x:Key="loadDefaultB">Wczytaj domyslne</system:String>
+    <system:String x:Key="openFolderB">Otwórz folder</system:String>
+
+    <!--<system:String x:Key=""></system:String>-->
+    <system:String x:Key="invNoEmpty">Invoice number can't be empty.</system:String>
+</ResourceDictionary>

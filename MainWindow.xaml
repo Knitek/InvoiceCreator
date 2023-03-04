@@ -3,9 +3,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:InvoiceCreator"
+        xmlns:local="clr-namespace:InvoiceCreator" 
         mc:Ignorable="d"
-        Title="Invoice Creator" Height="670" Width="600">
+        Title="{DynamicResource programTitle}" Height="670" Width="600">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="25"/>
@@ -13,19 +13,19 @@
             <RowDefinition Height="25"/>
         </Grid.RowDefinitions>
         <Menu FontSize="13" Padding="0 3 0 0">
-            <MenuItem Header="File" Width="50px" >
-                <MenuItem Header="Save" Command="{Binding SaveCommand}"/>
-                <MenuItem Header="SaveAs" Command="{Binding SaveAsCommand}"/>
-                <MenuItem Header="Open" Command="{Binding OpenCommand}"/>
-                <MenuItem Header="Exit" Command="{Binding ExitCommand}"/>
+            <MenuItem Header="{DynamicResource ResourceKey=file-head}" Width="50px" >
+                <MenuItem Header="{DynamicResource file-save}" Command="{Binding SaveCommand}"/>
+                <MenuItem Header="{DynamicResource file-saveas}" Command="{Binding SaveAsCommand}"/>
+                <MenuItem Header="{DynamicResource file-open}" Command="{Binding OpenCommand}"/>
+                <MenuItem Header="{DynamicResource file-exit}" Command="{Binding ExitCommand}"/>
             </MenuItem>
-            <MenuItem Header="Edit" Width="50px">
-                <MenuItem Header="Next invoice (now)" Command="{Binding NextInvoiceNowCommand}" 
+            <MenuItem Header="{DynamicResource edit-head}" Width="50px">
+                <MenuItem Header="{DynamicResource edit-nextinvnow}" Command="{Binding NextInvoiceNowCommand}" 
                           ToolTip="Następny numer faktury, wystawionej dzisiaj."/>                
-                <MenuItem Header="Next invoice (end of next month)" Command="{Binding NextInvoiceNextMonthCommand}"
+                <MenuItem Header="{DynamicResource edit-nextinvbynextmonth}" Command="{Binding NextInvoiceNextMonthCommand}"
                           ToolTip="Następny numer faktury, wystawionej na koniec kolejnego miesiąca."/>
             </MenuItem>
-            <MenuItem Header="About" Width="50px" Command="{Binding AboutWindowCommand}"/>
+            <MenuItem Header="{DynamicResource about-head}" Width="80px" HorizontalAlignment="Center" Command="{Binding AboutWindowCommand}"/>
         </Menu>
         <Label Grid.Row="2" Background="#FFF0F0F0">
             <TextBlock Text="{Binding StatusText}"/>
@@ -56,10 +56,10 @@
                     </ContextMenu>
                 </Grid.ContextMenu>-->
 
-                <Label Grid.Column="2" Content="Invoice Number"/>
-                <TextBox Text="{Binding BillNumber}" Grid.Row="1" Grid.Column="2"  Margin="2"/>
-                <Label Grid.Column="0" Content="Place of issue"/>
+                <Label Grid.Column="0" Content="{DynamicResource placeOfIssueH}"/>
                 <TextBox Text="{Binding PlaceOfIssue}" Grid.Row="1" Grid.Column="0" Margin="2"/>
+                <Label Grid.Column="2" Content="{DynamicResource invoiceNoH}"/>
+                <TextBox Text="{Binding BillNumber}" Grid.Row="1" Grid.Column="2"  Margin="2"/>
             </Grid>
             <Grid Grid.Row="1" DataContext="{Binding BillData}">
                 <Grid.ColumnDefinitions>
@@ -78,35 +78,35 @@
                     <RowDefinition Height="30"/>
                     <RowDefinition Height="30"/>
                 </Grid.RowDefinitions>
-                <Label Grid.Column="1" Content="Vendor" HorizontalContentAlignment="Center"/>
-                <Label Grid.Column="4" Content="Customer" HorizontalContentAlignment="Center"/>
-                <Label Grid.Column="0" Grid.Row="1" Content="Name: "/>
+                <Label Grid.Column="1" Content="{DynamicResource vendorH}" HorizontalContentAlignment="Center"/>
+                <Label Grid.Column="4" Content="{DynamicResource customerH}" HorizontalContentAlignment="Center"/>
+                <Label Grid.Column="0" Grid.Row="1" Content="{DynamicResource nameH}"/>
                 <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding VendorName}" Margin="2"/>
-                <Label Grid.Column="0" Grid.Row="2" Content="NIP: "/>
+                <Label Grid.Column="0" Grid.Row="2" Content="{DynamicResource nipH}"/>
                 <TextBox Grid.Column="1"  Grid.Row="2" Text="{Binding VendorNIP}" Margin="2"/>
-                <Label Grid.Column="0" Grid.Row="3" Content="Address: "/>
+                <Label Grid.Column="0" Grid.Row="3" Content="{DynamicResource addressH}"/>
                 <TextBox AcceptsReturn="True" Grid.Column="1"  Grid.Row="3" Text="{Binding VendorAddress}" Margin="2"/>
-                <Label Grid.Column="0" Grid.Row="4" Content="Email: "/>
+                <Label Grid.Column="0" Grid.Row="4" Content="{DynamicResource emailH}"/>
                 <TextBox Grid.Column="1"  Grid.Row="4" Text="{Binding VendorEmail}" Margin="2"/>
-                <Label Grid.Column="0" Grid.Row="5" Content="Phone: "/>
+                <Label Grid.Column="0" Grid.Row="5" Content="{DynamicResource phoneH}"/>
                 <TextBox Grid.Column="1"  Grid.Row="5" Text="{Binding VendorPhone}" Margin="2"/>
 
-                <Label Grid.Column="3" Grid.Row="1" Content="Name: "/>
+                <Label Grid.Column="3" Grid.Row="1" Content="{DynamicResource nameH}"/>
                 <TextBox Grid.Column="4" Grid.Row="1" Text="{Binding CustomerName}" Margin="2"/>
-                <Label Grid.Column="3" Grid.Row="2" Content="NIP: "/>
+                <Label Grid.Column="3" Grid.Row="2" Content="{DynamicResource nipH}"/>
                 <TextBox Grid.Column="4"  Grid.Row="2" Text="{Binding CustomerNIP,Mode=TwoWay}" Margin="2"/>
-                <Label Grid.Column="3" Grid.Row="3" Content="Address: "/>
+                <Label Grid.Column="3" Grid.Row="3" Content="{DynamicResource addressH}"/>
                 <TextBox  AcceptsReturn="True" Grid.Column="4"  Grid.Row="3" Text="{Binding CustomerAddress}" Margin="2"/>
             </Grid>
             <Grid Grid.Row="2">
                 <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding BillData.Items}">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Name" Binding="{Binding Name,Mode=TwoWay}"/>
-                        <DataGridTextColumn Header="PKWiU" Binding="{Binding PKWiU,Mode=TwoWay}"/>
-                        <DataGridTextColumn Header="Count" Binding="{Binding Count,Mode=TwoWay}"/>
-                        <DataGridTextColumn Header="Unit" Binding="{Binding Unit,Mode=TwoWay}"/>
-                        <DataGridTextColumn Header="Unit Prie" Binding="{Binding UnitPrice,Mode=TwoWay}"/>
-                        <DataGridTextColumn Header="Value" Binding="{Binding Value,Mode=TwoWay}"/>
+                        <DataGridTextColumn Header="{DynamicResource itemNameH}" Binding="{Binding Name,Mode=TwoWay}"/>
+                        <DataGridTextColumn Header="{DynamicResource itempkwiuH}" Binding="{Binding PKWiU,Mode=TwoWay}"/>
+                        <DataGridTextColumn Header="{DynamicResource itemCountH}" Binding="{Binding Count,Mode=TwoWay}"/>
+                        <DataGridTextColumn Header="{DynamicResource itemUnitH}" Binding="{Binding Unit,Mode=TwoWay}"/>
+                        <DataGridTextColumn Header="{DynamicResource itemUnitPriceH}" Binding="{Binding UnitPrice,Mode=TwoWay}"/>
+                        <DataGridTextColumn Header="{DynamicResource itemValueH}" Binding="{Binding Value,Mode=TwoWay}"/>
                     </DataGrid.Columns>
                 </DataGrid>
             </Grid>
@@ -125,23 +125,22 @@
                     <RowDefinition Height="30"/>
                     <RowDefinition Height="30"/>
                 </Grid.RowDefinitions>
-                <Label Grid.Column="0" Grid.Row="0" Content="Sale Date"/>
+                <Label Grid.Column="0" Grid.Row="0" Content="{DynamicResource saleDateH}"/>
                 <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding SaleDate,StringFormat=dd-MM-yyyy}" Margin="2"/>
-                <!--<DatePickerTextBox Grid.Column="1" Grid.Row="0" Text="{Binding SaleDate}" Margin="2"/>-->
-                <Label Grid.Column="0" Grid.Row="1" Content="Issue Date"/>
+                <Label Grid.Column="0" Grid.Row="1" Content="{DynamicResource issueDateH}"/>
                 <TextBox Grid.Column="1"  Grid.Row="1" Text="{Binding IssueDate}" Margin="2"/>
-                <Label Grid.Column="0" Grid.Row="2" Content="Payment Date"/>
+                <Label Grid.Column="0" Grid.Row="2" Content="{DynamicResource paymentDateH}"/>
                 <TextBox Grid.Column="1"  Grid.Row="2" Text="{Binding PaymentDate}" Margin="2"/>
-                <Label Grid.Column="0" Grid.Row="3" Content="To Pay:"/>
+                <Label Grid.Column="0" Grid.Row="3" Content="{DynamicResource toPayH}"/>
                 <TextBox Grid.Column="1"  Grid.Row="3" Text="{Binding ToPay}" Margin="2"/>
 
-                <Label Grid.Column="3" Grid.Row="0" Content="Bank Name"/>
+                <Label Grid.Column="3" Grid.Row="0" Content="{DynamicResource bankNameH}"/>
                 <TextBox Grid.Column="4" Grid.Row="0" Text="{Binding VendorBankName}" Margin="2"/>
-                <Label Grid.Column="3" Grid.Row="1" Content="Account Number"/>
+                <Label Grid.Column="3" Grid.Row="1" Content="{DynamicResource accountNumberH}"/>
                 <TextBox Grid.Column="4"  Grid.Row="1" Text="{Binding VendorAccountNumber}" Margin="2"/>
-                <Label Grid.Column="3" Grid.Row="2" Content="Payment Form"/>
+                <Label Grid.Column="3" Grid.Row="2" Content="{DynamicResource paymentFormH}"/>
                 <TextBox Grid.Column="4"  Grid.Row="2" Text="{Binding PaymentForm}" Margin="2"/>
-                <Label Grid.Column="3" Grid.Row="3" Content="Amount in words"/>
+                <Label Grid.Column="3" Grid.Row="3" Content="{DynamicResource amountInWordsH}"/>
                 <TextBox Grid.Column="4"  Grid.Row="3" Text="{Binding AmountInWords}" Margin="2"/>
             </Grid>
             <Grid Grid.Row="4" DataContext="{Binding BillData}">
@@ -150,9 +149,9 @@
             </Grid>
             <Grid Grid.Row="5">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                    <Button Command="{Binding GeneratePDFCommand}" Margin="5" Width="100" Height="30" Content="Generate PDF" />
-                    <Button Command="{Binding LoadDefaultCommand}" Margin="5" Content="Load Default" Width="100" Height="30" />
-                    <Button Command="{Binding OpenDefaultDirectoryCommand}" Margin="5" Content="Open Folder" Width="100" Height="30"/>
+                    <Button Command="{Binding GeneratePDFCommand}" Margin="5" Width="100" Height="30" Content="{DynamicResource generatePdfB}" />
+                    <Button Command="{Binding LoadDefaultCommand}" Margin="5" Content="{DynamicResource loadDefaultB}" Width="100" Height="30" />
+                    <Button Command="{Binding OpenDefaultDirectoryCommand}" Margin="5" Content="{DynamicResource openFolderB}" Width="100" Height="30"/>
                 </StackPanel>
             </Grid>
 

@@ -1,0 +1,47 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+                    xmlns:system="clr-namespace:System;assembly=mscorlib">
+    <system:String x:Key="programTitle">Invoice Creator</system:String>
+    <system:String x:Key="file-head">File</system:String>
+    <system:String x:Key="file-save">Save</system:String>
+    <system:String x:Key="file-saveas">SaveAs</system:String>
+    <system:String x:Key="file-open">Open</system:String>
+    <system:String x:Key="file-exit">Exit</system:String>
+    <system:String x:Key="edit-head">Edit</system:String>
+    <system:String x:Key="edit-nextinvnow">Next invoice (now)</system:String>
+    <system:String x:Key="edit-nextinvbynextmonth">Next invoice (end of next month)</system:String>
+    <system:String x:Key="about-head">About</system:String>
+    <system:String x:Key="placeOfIssueH">Place of issue</system:String>
+    <system:String x:Key="invoiceNoH">Invoice Number</system:String>
+    
+    <system:String x:Key="vendorH">Vendor</system:String>
+    <system:String x:Key="customerH">Customer</system:String>
+    <system:String x:Key="nameH">Name: </system:String>
+    <system:String x:Key="nipH">NIP: </system:String>
+    <system:String x:Key="addressH">Address: </system:String>
+    <system:String x:Key="emailH">Email: </system:String>
+    <system:String x:Key="phoneH">Phone: </system:String>
+    <system:String x:Key="saleDateH">Sale Date</system:String>
+    <system:String x:Key="issueDateH">Issue Date</system:String>
+    <system:String x:Key="paymentDateH">Payment Date</system:String>
+    <system:String x:Key="toPayH">To Pay:</system:String>
+    <system:String x:Key="commentsH">Comments:</system:String>
+    <system:String x:Key="bankNameH">Bank Name</system:String>
+    <system:String x:Key="accountNumberH">Account Number</system:String>
+    <system:String x:Key="paymentFormH">Payment Form</system:String>
+    <system:String x:Key="amountInWordsH">Amount in words</system:String>
+
+    <system:String x:Key="itemNameH">Name</system:String>
+    <system:String x:Key="itempkwiuH">PKWiU</system:String>
+    <system:String x:Key="itemCountH">Count</system:String>
+    <system:String x:Key="itemUnitH">Unit</system:String>
+    <system:String x:Key="itemUnitPriceH">Unit Price</system:String>
+    <system:String x:Key="itemValueH">Value</system:String>
+
+    <system:String x:Key="generatePdfB">Generate PDF</system:String>
+    <system:String x:Key="loadDefaultB">Load Default</system:String>
+    <system:String x:Key="openFolderB">Open Folder</system:String>
+    
+    <!--<system:String x:Key=""></system:String>-->
+    <system:String x:Key="invNoEmpty">Invoice number can't be empty.</system:String>
+</ResourceDictionary>

@@ -6,11 +6,11 @@ using System.Text;
 using System.Threading.Tasks;
 using InvoiceCreator.Model;
 using InvoiceCreator.Controls;
-using System.Windows.Forms;
 using ToolsLib;
 using PdfSharp.Drawing;
 using PdfSharp.Pdf;
 using PdfSharp.Drawing.Layout;
+using System.Windows;
 
 namespace InvoiceCreator.ViewModel
 {
@@ -19,6 +19,8 @@ namespace InvoiceCreator.ViewModel
         BillData billData { get; set; }
         string statusText { get; set; }
         string lastFileName { get; set; }
+
+        public ResourceDictionary Resources { get; set; }
 
         public BillData BillData
         {
@@ -157,6 +159,11 @@ namespace InvoiceCreator.ViewModel
         private void Save()
         {
             if (BillData == null) { MessageBox.Show("No data"); return; }
+            if(string.IsNullOrWhiteSpace(BillData.BillNumber) is true)
+            {
+                MessageBox.Show(Resources["invNoEmpty"].ToString());
+                return;
+            }
             string filename = BillData.BillNumber.Replace(@"/","_").Replace(@"\","_") + ".xml";
             string path = System.IO.Path.Combine(Tools.ReadAppSettingPath("defaultDataDirectory"), filename);
             Tools.Serialize<BillData>(BillData, path);
